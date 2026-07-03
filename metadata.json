@@ -1,0 +1,8 @@
+{
+  "name": "Skill管理生成工具",
+  "description": "基于大语言模型进行Skill的智能生成、深度质检审计、级联分类管理、可视化测试与持续优化的全栈工作台。",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
