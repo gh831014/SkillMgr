@@ -914,6 +914,71 @@ ${ex.output}
             </div>
           </div>
 
+          {/* Section: Matching Skills List under selected category */}
+          <div className="p-4 border-b border-slate-100 flex flex-col min-h-[250px] max-h-[350px]">
+            <div className="flex items-center justify-between mb-3 shrink-0">
+              <span className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center space-x-1">
+                <FileCode className="h-3.5 w-3.5 text-indigo-500" />
+                <span>关联 Skill 列表 ({skills.length})</span>
+              </span>
+              {selectedCategory && (
+                <span className="text-[10px] bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded-md font-medium truncate max-w-[120px]" title={selectedCategory}>
+                  {selectedCategory}
+                </span>
+              )}
+            </div>
+
+            <div className="flex-1 overflow-y-auto space-y-1.5 pr-1 min-h-0">
+              {skills.length > 0 ? (
+                skills.map((s) => (
+                  <div
+                    key={s.id}
+                    className={`group flex items-center justify-between p-2.5 rounded-lg cursor-pointer transition-all border ${
+                      currentSkill?.id === s.id
+                        ? "bg-indigo-50/70 border-indigo-200 text-indigo-900 shadow-xs"
+                        : "bg-slate-50/50 hover:bg-slate-100/75 border-slate-100 text-slate-700"
+                    }`}
+                    onClick={() => {
+                      setCurrentSkill(s);
+                      setActiveTab("edit");
+                    }}
+                  >
+                    <div className="flex-1 min-w-0 pr-2">
+                      <div className="flex items-center space-x-1.5">
+                        <span className={`text-xs font-semibold truncate ${currentSkill?.id === s.id ? "text-indigo-800" : "text-slate-800"}`}>
+                          {s.name}
+                        </span>
+                        <span className="text-[9px] font-mono text-slate-400 bg-white border border-slate-200 px-1 py-0.2 rounded-xs shrink-0">
+                          v{s.version}
+                        </span>
+                      </div>
+                      {s.description && (
+                        <p className="text-[10px] text-slate-400 truncate mt-0.5 leading-tight">
+                          {s.description}
+                        </p>
+                      )}
+                    </div>
+
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteSkill(s.id);
+                      }}
+                      className="text-slate-400 hover:text-rose-600 opacity-0 group-hover:opacity-100 transition-all p-1 rounded hover:bg-rose-100/50 shrink-0"
+                      title="删除该 Skill"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8 text-xs text-slate-400 italic">
+                  当前分类下暂无技能。点击上方“一键生成”或“新建空 Skill”来创建一个吧！
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Section: Tags */}
           {allTags.length > 0 && (
             <div className="p-4 border-b border-slate-100">
@@ -1040,6 +1105,14 @@ ${ex.output}
                 >
                   <Download className="h-3.5 w-3.5 text-indigo-300" />
                   <span>导出 MD</span>
+                </button>
+                <button
+                  onClick={() => handleDeleteSkill(currentSkill.id)}
+                  className="flex items-center space-x-1 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-md text-xs font-medium transition-colors border border-rose-100"
+                  title="彻底删除此 Skill 模板"
+                >
+                  <Trash2 className="h-3.5 w-3.5 text-rose-500" />
+                  <span>删除 Skill</span>
                 </button>
               </div>
             )}
